@@ -6,23 +6,10 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
-        classpath "com.github.johnrengelman:shadow:8.1.1"
     }
 }
 
 apply plugin: "application"
-
-mainClassName = "com.oocode.ExtremeStartupHttp4kServerKt"
-apply plugin: "com.github.johnrengelman.shadow"
-
-shadowJar {
-    archiveBaseName.set(project.name)
-    archiveClassifier.set(null)
-    archiveVersion.set(null)
-    mergeServiceFiles()
-    dependsOn(distTar, distZip)
-    zip64 true
-}
 
 repositories {
     mavenCentral()
@@ -30,12 +17,9 @@ repositories {
 
 apply plugin: "kotlin"
 
-compileKotlin.kotlinOptions.jvmTarget = "11"
-compileTestKotlin.kotlinOptions.jvmTarget = "11"
+compileKotlin.kotlinOptions.jvmTarget = "21"
+compileTestKotlin.kotlinOptions.jvmTarget = "21"
 compileTestKotlin.kotlinOptions.freeCompilerArgs += "-Xjvm-default=all"
-
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
 
 test {
     useJUnitPlatform()
@@ -43,7 +27,10 @@ test {
 
 dependencies {
     implementation("org.http4k:http4k-core:${http4kVersion}")
+    implementation("org.http4k:http4k-client-okhttp:${http4kVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
+    implementation("com.opencsv:opencsv:5.9")
+
     testImplementation("org.http4k:http4k-testing-approval:${http4kVersion}")
     testImplementation("org.http4k:http4k-testing-hamkrest:${http4kVersion}")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
