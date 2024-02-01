@@ -3,7 +3,6 @@ package com.oocode
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.http4k.core.HttpHandler
-import org.http4k.core.Request
 import org.http4k.core.Response
 import org.http4k.core.Status.Companion.OK
 import org.http4k.server.Http4kServer
@@ -47,7 +46,7 @@ class ExampleE2e_a_Test {
     fun canInterpretNationalGridDataCorrectly() {
         val newOut = ByteArrayOutputStream()
         System.setOut(PrintStream(newOut))
-        ChargeTimes("http://localhost:8123").printReport()
+        ChargeTimes(url = "http://localhost:8123").printReport()
         System.out.flush() // to be sure
         assertThat(
             newOut.toString().trim(), equalTo("""
@@ -64,7 +63,7 @@ Mon, 11 Dec 2023 12:30:00 GMT
 
     @BeforeEach
     fun startLocalServerPretendingToBeNationalGridEso() {
-        val app: HttpHandler = { request: Request -> Response(OK).body("""
+        val app: HttpHandler = { Response(OK).body("""
 "DATE_GMT","TIME_GMT","SETTLEMENT_DATE","SETTLEMENT_PERIOD","EMBEDDED_WIND_FORECAST","EMBEDDED_WIND_CAPACITY","EMBEDDED_SOLAR_FORECAST","EMBEDDED_SOLAR_CAPACITY"
 "2023-12-11T00:00:00","11:30","2023-12-11T00:00:00",23,1333,6488,2417,15595
 "2023-12-11T00:00:00","12:00","2023-12-11T00:00:00",24,1283,6488,2580,15595

@@ -3,6 +3,7 @@ package com.oocode
 import com.opencsv.CSVReader
 import okhttp3.OkHttpClient
 import org.http4k.client.OkHttp
+import org.http4k.core.HttpHandler
 import org.http4k.core.Method
 import org.http4k.core.Request
 import java.io.StringReader
@@ -15,13 +16,13 @@ private const val nationalGridEsoDataUrl =
     "https://api.nationalgrideso.com/dataset/91c0c70e-0ef5-4116-b6fa-7ad084b5e0e8/resource/db6c038f-98af-4570-ab60-24d71ebd0ae5/download/embedded-forecast.csv"
 
 fun main() {
-    ChargeTimes(nationalGridEsoDataUrl).printReport()
+    ChargeTimes(httpHandler(), nationalGridEsoDataUrl).printReport()
 }
 
-class ChargeTimes(private val url: String) {
+class ChargeTimes(private val httpHandler: HttpHandler = httpHandler(),
+                  private val url: String = nationalGridEsoDataUrl) {
     fun printReport() {
-        val httpClient = OkHttp(OkHttpClient.Builder().followRedirects(true).build())
-        val contents = httpClient(Request(Method.GET, url)).bodyString()
+        val contents = httpHandler(Request(Method.GET, url)).bodyString()
         val lines = CSVReader(StringReader(contents)).readAll().toList()
         println("Best times to plug in:\n" + lines.drop(1)
             .sortedByDescending { it[4].toInt() }
@@ -39,3 +40,5 @@ class ChargeTimes(private val url: String) {
             .joinToString("\n"))
     }
 }
+
+private fun httpHandler() = OkHttp(OkHttpClient.Builder().followRedirects(true).build())
