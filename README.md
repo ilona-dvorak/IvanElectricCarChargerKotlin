@@ -13,11 +13,6 @@ Run the usual build and tests:
 ./gradlew clean build
 ```
 
-Run the usual build and tests and additionally run a "code coverage" tool, called "[Jacoco](https://www.jacoco.org/jacoco/)" and open a browser on the results:
-```bash
-./build.sh
-```
-
 "Example" tests
 ----
 

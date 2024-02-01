@@ -11,6 +11,8 @@ buildscript {
 
 apply plugin: "application"
 
+mainClassName = "com.oocode.ChargeTimesKt"
+
 repositories {
     mavenCentral()
 }
