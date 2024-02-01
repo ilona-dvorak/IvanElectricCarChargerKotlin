@@ -8,6 +8,19 @@ import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
+/*
+Tests the whole "system" - including its external dependency (a National Grid ESO service).
+
+Advantages:
+    Shows whether the whole "system" works (to some extent)
+
+Disadvantages:
+    Limited in what you can assert about the output, because it depends on the result of the
+        external service which is not under our control.
+    Could fail due to a problem with the external service rather than our code
+    Slow to run
+ */
+
 class ExampleSystemTest {
     @Test
     fun canInterpretNationalGridDataCorrectly() {
