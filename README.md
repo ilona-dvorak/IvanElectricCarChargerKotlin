@@ -1,59 +1,24 @@
-This is a starting point for a Kotlin http4k player of [Extreme Startup](https://github.com/rchatley/extreme_startup).
+Ivan Electric Car Chargers
+====
 
-To join a game: https://extreme-startup.fly.dev/
+This is an example codebase for a "legacy code" workshop.
 
-### install fly
+It's a simple program for finding out the best time to plug in your car to charge, using data from [National Grid ESO](https://www.nationalgrideso.com/).
+It is not meant to be a useful program - it is just something for a lab in retro-fitting tests to an existing codebase.
 
+If you want to try out this program, execute: `./gradlew run`
+
+Run the usual build and tests:
 ```bash
-brew install flyctl
+./gradlew clean build
 ```
 
-### login to fly
-
+Run the usual build and tests and additionally run a "code coverage" tool, called "[Jacoco](https://www.jacoco.org/jacoco/)" and open a browser on the results:
 ```bash
-fly auth login
+./build.sh
 ```
 
-### initial deployment to fly
+"Example" tests
+----
 
-```bash
-fly launch
-```
-
-### deploy to fly
-
-```bash
-fly deploy
-```
-
-### debug running app
-
-```bash
-fly logs
-```
-
-### build docker image
-
-```bash
-docker build -t extreme-startup-http4k-server .
-```
-
-### run docker container based on that image
-
-```bash
-docker run -p 9000:9000 extreme-startup-http4k-server
-```
-
-### cleanup
-
-```bash
-docker container prune -f
-```
-
-### CI/CD
-
-from: https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/
-
-```bash
-fly tokens create deploy -x 999999h
-```
+Some "tests" have been included - they are not tests for this program, but rather demonstrate some useful bits of Java or test infrastructure which might be useful in this lab, to give you some hints and save you time in looking these things up.
