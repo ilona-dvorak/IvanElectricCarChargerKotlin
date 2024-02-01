@@ -21,11 +21,8 @@ class ChargeTimes(
     }
 
     fun report(): String {
-        return "Best times to plug in:\n" + nationalGridEsoDataProvider.rows().asSequence()
-            .sortedByDescending { it.embeddedWindForecast }
-            .take(3)
-            .sortedBy { it.dateTimeGmt }
-            .map { it.dateTimeGmt.format(RFC_1123_DATE_TIME) }
+        return "Best times to plug in:\n" + NationalGridEsoBestTimesFinder().bestTimes(nationalGridEsoDataProvider.rows())
+            .map { it.format(RFC_1123_DATE_TIME) }
             .joinToString("\n")
     }
 }
