@@ -31,9 +31,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
     implementation("com.opencsv:opencsv:5.9")
 
-    testImplementation("org.http4k:http4k-testing-approval:${http4kVersion}")
     testImplementation("org.http4k:http4k-testing-hamkrest:${http4kVersion}")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    testImplementation("com.oneeyedmen:okeydoke:2.0.3")
 }
 
