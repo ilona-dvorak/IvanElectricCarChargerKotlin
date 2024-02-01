@@ -18,7 +18,7 @@ class NationalGridEsoDataProvider(
     private val httpHandler: HttpHandler = httpHandler(),
     private val url: String = nationalGridEsoDataUrl
 ) {
-    fun rows(): List<Row> {
+    fun data(): List<Row> {
         val contents = httpHandler(Request(Method.GET, url)).bodyString()
         val lines = CSVReader(StringReader(contents)).readAll().toList()
         val rows = lines.drop(1).map { row ->
