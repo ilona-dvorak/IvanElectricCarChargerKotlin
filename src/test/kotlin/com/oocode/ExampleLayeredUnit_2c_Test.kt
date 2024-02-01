@@ -4,34 +4,26 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.http4k.core.Response
 import org.http4k.core.Status
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.io.ByteArrayOutputStream
-import java.io.PrintStream
 
 /*
-A variant of ExampleE2e_a_Test - Tests all of the "system" which is under our control - excludes the external dependency.
-    It does this by faking the HTTP response from the external dependency - using a standard http4k approach to
-        provide an HttpHandler which avoids needing to start a real server.
+A variant of ExampleE2e_b_Test - the difference being here we are not testing that the
+report is written to "System.out", but just directly testing the report String.
 
-Advantages compared to ExampleE2e_a_Test:
-    Will run quicker than ExampleE2e_a_Test, and is less likely to have flakiness
+Advantages compared to ExampleE2e_b_Test:
+    Makes the test easier to read an write - less extraneous noise
 
-Disadvantages compared to ExampleE2e_a_Test:
-    Does not test the real http server part of the implementation - but that is covered by http4k itself so in practice
-        there is usually little advantage of ExampleE2e_a_Test over this
+Disadvantages compared to ExampleE2e_b_Test:
+    Means we have to expose a method "report" which might not otherwise need to exist
  */
-class ExampleE2e_b_Test {
+
+class ExampleLayeredUnit_2c_Test {
     @Test
     fun canInterpretNationalGridDataCorrectly() {
-        val newOut = ByteArrayOutputStream()
-        System.setOut(PrintStream(newOut))
         val underTest = ChargeTimes({ Response(Status.OK).body(hardCodedContent) })
-        underTest.printReport()
-        System.out.flush() // to be sure
+        val report = underTest.report()
         assertThat(
-            newOut.toString().trim(), equalTo(
+            report.trim(), equalTo(
                 """
 Best times to plug in:
 Mon, 11 Dec 2023 11:30:00 GMT
@@ -40,18 +32,6 @@ Mon, 11 Dec 2023 12:30:00 GMT
 """.trim()
             )
         )
-    }
-
-    private var oldOut: PrintStream? = null
-
-    @BeforeEach
-    fun rememberRealSystemOut() {
-        oldOut = System.out
-    }
-
-    @AfterEach
-    fun restoreSystemOut() {
-        System.setOut(oldOut)
     }
 }
 

@@ -22,9 +22,13 @@ fun main() {
 class ChargeTimes(private val httpHandler: HttpHandler = httpHandler(),
                   private val url: String = nationalGridEsoDataUrl) {
     fun printReport() {
+        println(report())
+    }
+
+    fun report(): String {
         val contents = httpHandler(Request(Method.GET, url)).bodyString()
         val lines = CSVReader(StringReader(contents)).readAll().toList()
-        println("Best times to plug in:\n" + lines.drop(1)
+        val report = "Best times to plug in:\n" + lines.drop(1)
             .sortedByDescending { it[4].toInt() }
             .take(3)
             .map { row ->
@@ -37,7 +41,8 @@ class ChargeTimes(private val httpHandler: HttpHandler = httpHandler(),
             }
             .sorted()
             .map { it.format(RFC_1123_DATE_TIME) }
-            .joinToString("\n"))
+            .joinToString("\n")
+        return report
     }
 }
 
