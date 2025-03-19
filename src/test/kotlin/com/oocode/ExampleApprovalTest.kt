@@ -8,7 +8,7 @@ import java.io.File
 
 class ExampleApprovalTest {
     @RegisterExtension
-    public var approvals = ApprovalsExtension(File("src/test/resources/approval"))
+    val approvals = ApprovalsExtension(File("src/test/resources/approval"))
 
     @Test
     fun canDoAnApproval(approver: Approver) {
