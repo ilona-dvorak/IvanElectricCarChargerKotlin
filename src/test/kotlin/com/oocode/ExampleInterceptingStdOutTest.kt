@@ -29,4 +29,5 @@ class ExampleInterceptingStdOutTest {
     fun restoreSystemOut() {
         System.setOut(oldOut)
     }
+
 }

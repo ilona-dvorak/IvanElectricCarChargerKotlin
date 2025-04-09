@@ -15,10 +15,15 @@ private const val nationalGridEsoDataUrl =
     "https://api.nationalgrideso.com/dataset/91c0c70e-0ef5-4116-b6fa-7ad084b5e0e8/resource/db6c038f-98af-4570-ab60-24d71ebd0ae5/download/embedded-forecast.csv"
 
 fun main() {
+    findWindiestElectricty(nationalGridEsoDataUrl)
+}
+
+fun findWindiestElectricty(dataUrl: String) {
     val httpClient = OkHttp(OkHttpClient.Builder().followRedirects(true).build())
-    val contents = httpClient(Request(Method.GET, nationalGridEsoDataUrl)).bodyString()
+    val contents = httpClient(Request(Method.GET, dataUrl)).bodyString()
     val lines = CSVReader(StringReader(contents)).readAll().toList()
-    println("Best times to plug in:\n" + lines.drop(1)
+    println(
+        "Best times to plug in:\n" + lines.drop(1)
         .sortedByDescending { it[4].toInt() }
         .take(3)
         .map { row ->
